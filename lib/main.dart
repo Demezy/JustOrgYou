@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:swipeapp/src/decks_manager.dart';
 
 void main() {
   runApp(const MyApp());
-}
-
-class CardData {
-  String shortText;
-  String? longText;
-  CardData(this.shortText, [this.longText]);
 }
 
 class MyApp extends StatelessWidget {
@@ -49,21 +44,23 @@ Color stringToColor(String str) {
       255, (hash & 0xFF0000) >> 16, (hash & 0x00FF00) >> 8, hash & 0x0000FF);
 }
 
-Color _cardToColor(CardData card) {
+Color _cardToColor(DeckEntry card) {
   return stringToColor(
-      card.shortText + (card.longText == null ? card.shortText : ""));
+      card.title + (card.description == null ? card.title : ""));
 }
 
-Widget cardToWidget(CardData card) {
-  return _basicContainer(
-      child: Text(card.shortText), color: _cardToColor(card));
+Widget cardToWidget(DeckEntry card) {
+  return _basicContainer(child: Text(card.title), color: _cardToColor(card));
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<CardData> _unsorted =
-      ["1", "2", "3"].map((e) => CardData(e)).toList().reversed.toList();
+  final List<DeckEntry> _unsorted = ["1", "2", "3"]
+      .map((e) => DeckEntry(title: e))
+      .toList()
+      .reversed
+      .toList();
 
-  Widget _deckToDraggables(List<CardData> cards) {
+  Widget _deckToDraggables(List<DeckEntry> cards) {
     var tmp = cards
         .map((e) => Draggable(
               data: e,
@@ -82,8 +79,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return _basicContainer(child: Container(), color: stringToColor(title));
   }
 
-  DragTarget<CardData> _getDragTarget(
-      {required String title, required Function(CardData) onAccept}) {
+  DragTarget<DeckEntry> _getDragTarget(
+      {required String title, required Function(DeckEntry) onAccept}) {
     return DragTarget(
       builder: ((context, candidateData, rejectedData) {
         if (rejectedData.isNotEmpty) {
@@ -98,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  List<Widget> _getUI(Map<String, List<CardData>> decks) {
+  List<Widget> _getUI(Map<String, List<DeckEntry>> decks) {
     List<Widget> widgets = [
       _deckToDraggables(_unsorted),
     ];
@@ -119,14 +116,14 @@ class _MyHomePageState extends State<MyHomePage> {
           print("debug");
           decks.forEach((key, value) {
             print(
-                "deck $key: ${value.fold("", (previousValue, element) => "$previousValue ${element.shortText}")}");
+                "deck $key: ${value.fold("", (previousValue, element) => "$previousValue ${element.title}")}");
           });
         }),
         icon: Icon(Icons.help)));
     return widgets;
   }
 
-  final Map<String, List<CardData>> _decks = {
+  final Map<String, List<DeckEntry>> _decks = {
     'box_1': [],
     'box_2': [],
     'box_3': [],
