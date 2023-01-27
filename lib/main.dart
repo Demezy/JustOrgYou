@@ -1,8 +1,11 @@
-import 'package:flutter/material.dart';
+import 'dart:math';
 
-import 'src/deck_display.dart';
-import 'src/decks_manager.dart';
+import 'package:flutter/material.dart';
+import 'package:swipeapp/src/deck/deck_display.dart';
+import 'package:swipeapp/src/deck/decks_manager.dart';
+
 import 'src/ui_helpers.dart';
+/* import "package:org_flutter/org_flutter.dart"; */
 
 void main() {
   runApp(const MyApp());
@@ -43,14 +46,14 @@ class _MyHomePageState extends State<MyHomePage> {
       .reversed
       .toList();
 
-  final Map<String, List<DeckEntry>> _decks = {
+  final Map<String, Deck> _decks = {
     'box_1': [],
     'box_2': [],
-    'box_3': [],
-    'box_4': [],
-    'box_5': [],
-    'box_6': [],
-    'box_7': [],
+    /* 'box_3': [], */
+    /* 'box_4': [], */
+    /* 'box_5': [], */
+    /* 'box_6': [], */
+    /* 'box_7': [], */
   };
 
   @override
@@ -128,6 +131,15 @@ class _MyHomePageState extends State<MyHomePage> {
           });
         }),
         icon: const Icon(Icons.help)));
+    widgets.add(IconButton(
+        onPressed: () {
+          setState(() {
+            _unsorted
+                .add(DeckEntry(title: "random-${Random().nextInt(90) + 10}"));
+          });
+        },
+        icon: const Icon(Icons.generating_tokens)));
+    /* widgets.add(Org("""* TODO [#A] foo bar """)); */
     return widgets;
   }
 }
