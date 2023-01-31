@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:swipeapp/ffi.dart';
 import 'package:swipeapp/src/deck/deck_display.dart';
 import 'package:swipeapp/src/deck/decks_manager.dart';
 
@@ -38,6 +39,8 @@ class MyHomePage extends StatefulWidget {
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
+
+String label = "default";
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<DeckEntry> _unsorted = ["1", "2", "3"]
@@ -107,9 +110,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   List<Widget> _getUI(Map<String, List<DeckEntry>> decks) {
+    api.platform().then((value) => label = value.toString());
     List<Widget> widgets = [
       _deckToDraggables(_unsorted),
     ];
+    widgets.add(Text(label));
 
     decks.forEach((key, list) {
       widgets.add(_getDragTarget(
