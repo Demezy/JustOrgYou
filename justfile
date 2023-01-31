@@ -12,14 +12,16 @@ crate := "native"
     --dart-decl-output lib/bridge_definitions.dart
 
 remove-gen:
+  # replace fd with find
   fd -tf bridge_generated -x rm -rf
 
 remove-build:
-  # rm -rf $crate/target
   cd $crate && cargo clean
 
 clean: remove-gen remove-build
   flutter clean
 
-run-no-cache: clean codegen
+run: codegen
   flutter run
+
+run-no-cache: clean codegen run
