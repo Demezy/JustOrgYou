@@ -6,4 +6,11 @@ task management approach.
 
 ## Getting Started
 
-Wait for a bit...
+### Building from source
+
+- `cargo install flutter_rust_bridge_codegen` install code generator
+- (non-debian based Linux distributions) install/update: `clang`, `llvm-libs`,
+  `glibc`
+- `just run-no-cache` to run flutter locally
+
+more info soon...
